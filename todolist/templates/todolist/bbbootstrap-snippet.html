@@ -56,17 +56,31 @@ $(this).parent().remove();
                 <div class="card px-3">
                     <div class="card-body">
                         <h4 class="card-title">Awesome Todo list</h4>
-                        <div class="add-items d-flex"> <input type="text" class="form-control todo-list-input" placeholder="What do you need to do today?"> <button class="add btn btn-primary font-weight-bold todo-list-add-btn">Add</button> </div>
+                        <form role="form" action="{% url 'add' %}" method="post">
+                          {%csrf_token%}
+                          <div class="add-items d-flex">
+                            {{form.text}}
+
+                             <button  class="add btn btn-primary font-weight-bold todo-list-add-btn">Add</button>
+
+                            </div>
+
+                        </form>
+                        <a href="{% url 'deletecompleted' %}"><button  class="add btn btn-primary font-weight-bold todo-list-add-btn">Deletecompleted</button>
+</a>
+<a href="{% url 'deleteall' %}"><button  class="add btn btn-primary font-weight-bold todo-list-add-btn">DeletecAll</button>
+</a>
                         <div class="list-wrapper">
                             <ul class="d-flex flex-column-reverse todo-list">
                               {% for todolist in todo_items %}
                                    {%if todolist.completed %}
                                 <li class="completed" >
-                                    <div class="form-check"> <label class="form-check-label"> <input class="checkbox" type="checkbox"> {{todolist.text}} <i class="input-helper"></i></label> </div> <i class="remove mdi mdi-close-circle-outline"></i>
+                                    <div class="form-check"> <label class="form-check-label"> <input class="checkbox" type="checkbox"> {{todolist.text}} <i class="input-helper"></i></label> </div>  <i  class="remove mdi mdi-close-circle-outline"></i>
+
                                 </li>
-                                    {%else%}
+                                       {%else%}
                                     <li >
-                                        <a href="#">  <div class="form-check"> <label class="form-check-label"> <input class="checkbox" type="checkbox"> {{todolist.text}} <i class="input-helper"></i></label> </div> </a><i class="remove mdi mdi-close-circle-outline"></i>
+                                        <a href="{% url 'completedd' todolist.id %}">  <div class="form-check"> <label class="form-check-label"> <input class="checkbox" type="checkbox"> {{todolist.text}} <i class="input-helper"></i></label> </div> </a><i class="remove mdi mdi-close-circle-outline"></i>
 
                                     </li>
                                     {%endif%}
